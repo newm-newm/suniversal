@@ -235,7 +235,7 @@ void loop() {
                 }
                 break;
             case COMPOSE:
-                if (COMPOSE_MODE) {
+                if (COMPOSE_MODE && !COMPOSE_LED_HOST_CONTROLLED) {
                     toggleLEDs(COMPOSE_MASK);
                     count_to_compose_off =
                         (cmdLED[1] & COMPOSE_MASK) == 0 ? 0 : 3;
@@ -246,7 +246,7 @@ void loop() {
         }
 
         // check on every key release whether Compose needs to be switched off
-        if ((key & BREAK_BIT) != 0) {
+        if (!COMPOSE_LED_HOST_CONTROLLED && ((key & BREAK_BIT) != 0)) {
             switch (count_to_compose_off) {
                 case 0:
                     break;
@@ -276,15 +276,27 @@ void handleKey(uint8_t key) {
     DPRINTLN();
 }
 
+/*
+    The LED bits are assigned differently for SUN and USB, so we need to
+    translate from USB to SUN:
+
+    bit          3               2              1              0
+    SUN     CAPS_LOCK       SCROLL_LOCK     COMPOSE         NUM_LOCK
+    USB     COMPOSE         SCROLL_LOCK     CAPS_LOCK       NUM_LOCK
+ */
 void updateLEDs() {
-    uint8_t leds = usbKeyboard.getLeds();
-    leds = ((leds & USB_LED_CAPS_LOCK) << 2) |
-           ((leds & USB_LED_COMPOSE) >> 2) |
-            (leds & (USB_LED_NUM_LOCK | USB_LED_SCROLL_LOCK));
-    if (cmdLED[1] != leds) {
+    uint8_t ledsUSB = usbKeyboard.getLeds();
+    uint8_t ledsSUN = ((ledsUSB & USB_LED_CAPS_LOCK) << 2) |
+                       (ledsUSB & (USB_LED_NUM_LOCK | USB_LED_SCROLL_LOCK));
+    if (COMPOSE_LED_HOST_CONTROLLED) {
+        ledsSUN |= ((ledsUSB & USB_LED_COMPOSE) >> 2);
+    } else {
+        ledsSUN |= (cmdLED[1] & COMPOSE_MASK);
+    }
+    if (cmdLED[1] != ledsSUN) {
         DPRINTLN("suniversal: LED state changed: " + String(cmdLED[1], HEX) +
-            " --> " + String(leds, HEX));
-        cmdLED[1] = leds;
+            " --> " + String(ledsSUN, HEX));
+        cmdLED[1] = ledsSUN;
         sun.write(cmdLED, 2);
     }
 }

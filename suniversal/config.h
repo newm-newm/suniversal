@@ -41,6 +41,11 @@
 //
 #define COMPOSE_MODE false
 
+// Set whether the state of the compose LED should be controlled by the host
+// (true). If this does not work (depending on the host OS, the compose LED may
+// be kept off all the time), set this to false to let suniversal control the
+// LED.
+#define COMPOSE_LED_HOST_CONTROLLED true
 
 // Set whether to have the keyboard blink & beep at start up.
 //
