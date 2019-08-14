@@ -67,6 +67,9 @@
 // LED command sequence
 uint8_t cmdLED[2] = {CMD_LED, 0x00};
 
+// previous USB LED state
+uint8_t ledsUSBPrev = 0;
+
 // for communication with the SUN keyboard
 SoftwareSerial sun(PIN_RX, PIN_TX, true);
 
@@ -285,17 +288,26 @@ void handleKey(uint8_t key) {
     USB     COMPOSE         SCROLL_LOCK     CAPS_LOCK       NUM_LOCK
  */
 void updateLEDs() {
+
     uint8_t ledsUSB = usbKeyboard.getLeds();
     uint8_t ledsSUN = ((ledsUSB & USB_LED_CAPS_LOCK) << 2) |
                        (ledsUSB & (USB_LED_NUM_LOCK | USB_LED_SCROLL_LOCK));
+
     if (COMPOSE_LED_HOST_CONTROLLED) {
         ledsSUN |= ((ledsUSB & USB_LED_COMPOSE) >> 2);
     } else {
         ledsSUN |= (cmdLED[1] & COMPOSE_MASK);
     }
+
+    if (ledsUSB != ledsUSBPrev) {
+        DPRINTLN("suniversal: USB LED state changed: " +
+            String(ledsUSBPrev, HEX) + " --> " + String(ledsUSB, HEX));
+        ledsUSBPrev = ledsUSB;
+    }
+
     if (cmdLED[1] != ledsSUN) {
-        DPRINTLN("suniversal: LED state changed: " + String(cmdLED[1], HEX) +
-            " --> " + String(ledsSUN, HEX));
+        DPRINTLN("suniversal: SUN LED state changed: " +
+            String(cmdLED[1], HEX) + " --> " + String(ledsSUN, HEX));
         cmdLED[1] = ledsSUN;
         sun.write(cmdLED, 2);
     }
