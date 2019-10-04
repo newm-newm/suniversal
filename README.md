@@ -127,6 +127,8 @@ There are a few settings you can make in `config.h`, the more interesting ones b
 
     Replace the vendor IDs with the ones from your board. Then, run `sudo udevadm trigger`.
 
+    What may also help on Linux systems is disabling or removing the `modemmanager` package, as it seems to interfere with the *Arduino*'s serial port.
+
 
 ## Contributing
 

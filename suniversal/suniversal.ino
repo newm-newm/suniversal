@@ -227,6 +227,8 @@ void loop() {
 
         int key = sun.read();
 
+        DPRINTLN("suniversal: raw key " + String(key, HEX));
+
         switch (key) {
             case POWER:
                 if (DEBUG) {
