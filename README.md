@@ -22,6 +22,7 @@ I finally got hold of a *SUN* mouse (model *Compact 1*, *SUN* no. 370-1586-03), 
 | Type 5   | confirmed working                        |
 | Type 4   | feedback wanted                          |
 | Type 3   | feedback wanted                          |
+| Integrix S5+100 (*SUN* clone) | not working, possibly PS/2 interface, details in issue #4 |
 
 
 ## Background

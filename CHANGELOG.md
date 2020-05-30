@@ -1,5 +1,10 @@
 # Change Log
 
+## v0.4.2
+- doc updates
+- new setting `COMPOSE_LED_HOST_CONTROLLED` (see issue #5)
+- more debug log info (see issues #5 and #6)
+
 ## v0.4.1
 - mouse wheel emulation for vertical and horizontal scrolling
 - refactoring
