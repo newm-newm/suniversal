@@ -54,7 +54,7 @@ The original cable can be unplugged from the keyboard's PCB, so it's easy to rev
 <sup>1</sup> as found on a *Type 5c* keyboard, may differ depending on model & year
 
 #### <sup>2</sup> Inverter for Mouse Signal
-Just like the keyboard, the mouse also uses an inverted serial signal, so you need an inverter in the line between the mouse and RX of the *Arduino*, e.g. a transistor and two resistors. This is because unlike the `SoftwareSerial` we're using for the keyboard, the H/W serial of the *Arduino* cannot be configured to invert signals. Alternatively, maybe a second `SoftwareSerial` could be used, but I was under the impression that only one would work at a time. Let me know if that's not so.
+Just like the keyboard, the mouse also uses an inverted serial signal, so you need an inverter in the line between the mouse and RX of the *Arduino*, e.g. a transistor (2N2222, BC547 or similar will do) and two resistors. This is because unlike the `SoftwareSerial` we're using for the keyboard, the H/W serial of the *Arduino* cannot be configured to invert signals. Alternatively, maybe a second `SoftwareSerial` could be used, but I was under the impression that only one would work at a time. Let me know if that's not so.
 
 ![inverter](doc/inverter.png)
 
