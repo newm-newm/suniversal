@@ -36,6 +36,7 @@ I finally settled for a *Pro Micro*, an *Arduino*-compatible board developed by 
 
 - *Sparkfun Pro Micro* (used by myself)
 - *Arduino Micro* (thanks to opthomas-prime)
+- *Arduino Leonardo* (thanks to newm-newm)
 
 Whichever board you choose, make sure it's 5V, since the RS232 signals from the keyboard are 5V TTL levels! Shortly after starting this project, I also got my hands on a *Type 5* in addition to the *Type 5c* I already had. For both, I decided to put the *Arduino* into the keyboard case (had to open them for cleaning anyway). The hardware is different for both, so here's how I went about it.
 
